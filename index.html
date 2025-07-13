@@ -21,7 +21,7 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(41, 41, 41, 0.938);
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 20px 40px rgba(127, 127, 213, 0.15);
@@ -150,7 +150,7 @@
         }
 
         .curso.cursado {
-            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            background: linear-gradient(135deg, #a18cd1 0%, #c2d1fb 100%);
             border-color: #b388ff;
             transform: scale(1.02);
         }
@@ -164,7 +164,7 @@
         }
 
         .curso.disponible {
-            background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%);
+            background: linear-gradient(135deg, #8ec5fc 0%, #b678f0 100%);
             border-color: #7f7fd5;
             box-shadow: 0 0 15px rgba(127, 127, 213, 0.15);
         }
@@ -248,8 +248,8 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>Malla Curricular</h1>
-            <p id="carrera-name">Cargando...</p>
+            <h1 id="carrera-name">Cargando...</h1>
+            <p>Malla Curricular</p>
         </header>
         
         <div class="stats">
@@ -272,10 +272,11 @@
         </div>
 
         <div class="reset-button-container">
-            <button class="reset-button" onclick="resetearProgreso()">
-                🔄 Resetear Progreso
-            </button>
-        </div>
+    <button class="reset-button" onclick="resetearProgreso()">🔄 Resetear Progreso</button>
+    <button class="reset-button" onclick="copiarCodigoMalla()" style="margin-left:10px;">📋 Copiar Código</button>
+    <input id="codigo-malla-input" placeholder="Pega el código aquí" style="width:50%;padding:10px;border-radius:10px;border:1px solid #b388ff;margin-left:10px;">
+    <button class="reset-button" onclick="cargarCodigoMalla()" style="margin-left:10px;">🔓 Cargar</button>
+</div>
     </div>
 
     <script>
@@ -548,6 +549,26 @@ function toRoman(num) {
                 actualizarEstadisticas();
             }
         }
+
+        function copiarCodigoMalla() {
+    navigator.clipboard.writeText(btoa(JSON.stringify({
+        carrera: mallaData.carrera,
+        cursosCompletados
+    }))).then(()=>alert('¡Copiado!'));
+}
+function cargarCodigoMalla() {
+    try {
+        const datos = JSON.parse(atob(document.getElementById('codigo-malla-input').value.trim()));
+        if (!Array.isArray(datos.cursosCompletados)) throw 0;
+        cursosCompletados = datos.cursosCompletados;
+        localStorage.setItem('cursosCompletados', JSON.stringify(cursosCompletados));
+        actualizarEstadoCursos();
+        actualizarEstadisticas();
+        alert('¡Malla restaurada!');
+    } catch {
+        alert('Código inválido.');
+    }
+}
 
         // Cargar JSON desde archivo (opcional)
         function cargarJSON(archivo) {
