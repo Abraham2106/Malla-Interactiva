@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Malla Curricular ✨</title>
+    <title>Malla Curricular</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7f7fd5 0%, #86a8e7 50%, #91eac9 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -24,7 +24,7 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(127, 127, 213, 0.15);
             backdrop-filter: blur(10px);
         }
 
@@ -34,13 +34,13 @@
         }
 
         .header h1 {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f093fb);
+            background: linear-gradient(45deg, #7f7fd5, #b388ff, #8f94fb, #a18cd1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 2.5rem;
+            font-size: 40px;
             font-weight: bold;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 2px 2px 4px rgba(127, 127, 213, 0.1);
         }
 
         .header p {
@@ -58,12 +58,12 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7f7fd5 0%, #b388ff 100%);
             color: white;
             padding: 20px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(127, 127, 213, 0.15);
             min-width: 120px;
             transition: transform 0.3s ease;
         }
@@ -100,10 +100,10 @@
 
         .semestre {
             width: 100%;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(127, 127, 213, 0.10);
         }
         
         .semestre h3 {
@@ -150,8 +150,8 @@
         }
 
         .curso.cursado {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            border-color: #4ecdc4;
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            border-color: #b388ff;
             transform: scale(1.02);
         }
 
@@ -164,9 +164,9 @@
         }
 
         .curso.disponible {
-            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
-            border-color: #ff6b6b;
-            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+            background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%);
+            border-color: #7f7fd5;
+            box-shadow: 0 0 15px rgba(127, 127, 213, 0.15);
         }
 
         .curso.bloqueado {
@@ -210,7 +210,7 @@
         }
 
         .reset-button {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            background: linear-gradient(135deg, #7f7fd5 0%, #b388ff 100%);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -219,12 +219,12 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 5px 15px rgba(127, 127, 213, 0.15);
         }
 
         .reset-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 8px 20px rgba(127, 127, 213, 0.2);
         }
 
         /* Responsive */
@@ -248,7 +248,7 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>✨ Mi Malla Curricular ✨</h1>
+            <h1>Malla Curricular</h1>
             <p id="carrera-name">Cargando...</p>
         </header>
         
@@ -380,35 +380,52 @@
         function inicializarMalla() {
             // Mostrar nombre de la carrera
             document.getElementById('carrera-name').textContent = mallaData.carrera;
-            
-            // Generar la malla por semestres
-            const mallaContainer = document.getElementById('malla-container');
-            mallaContainer.innerHTML = '';
-            
-            Object.keys(mallaData.malla).forEach(semestre => {
-                const semestreDiv = document.createElement('div');
-                semestreDiv.className = 'semestre';
-                
-                const titulo = document.createElement('h3');
-                titulo.textContent = `Ciclo ${semestre}`;
-                semestreDiv.appendChild(titulo);
-                
-                const cursosGrid = document.createElement('div');
-                cursosGrid.className = 'cursos-grid';
 
-                mallaData.malla[semestre].forEach(curso => {
-                const cursoDiv = crearCursoElement(curso);
-                cursosGrid.appendChild(cursoDiv);
-                });
+    // Generar la malla por semestres
+    const mallaContainer = document.getElementById('malla-container');
+    mallaContainer.innerHTML = '';
 
-                semestreDiv.appendChild(cursosGrid);
-                
-                mallaContainer.appendChild(semestreDiv);
-            });
-            
-            actualizarEstadoCursos();
-            actualizarEstadisticas();
+    Object.keys(mallaData.malla).forEach(semestre => {
+        const semestreDiv = document.createElement('div');
+        semestreDiv.className = 'semestre';
+
+        const titulo = document.createElement('h3');
+        titulo.textContent = `Ciclo ${toRoman(semestre)}`;
+        semestreDiv.appendChild(titulo);
+
+        const cursosGrid = document.createElement('div');
+        cursosGrid.className = 'cursos-grid';
+
+        mallaData.malla[semestre].forEach(curso => {
+            const cursoDiv = crearCursoElement(curso);
+            cursosGrid.appendChild(cursoDiv);
+        });
+
+        semestreDiv.appendChild(cursosGrid);
+
+        mallaContainer.appendChild(semestreDiv);
+    });
+
+    actualizarEstadoCursos();
+    actualizarEstadisticas();
+}
+
+// Función para convertir números arábigos a romanos
+function toRoman(num) {
+    num = parseInt(num);
+    const romans = [
+        ["M",1000],["CM",900],["D",500],["CD",400],["C",100],["XC",90],
+        ["L",50],["XL",40],["X",10],["IX",9],["V",5],["IV",4],["I",1]
+    ];
+    let result = "";
+    for (const [roman, value] of romans) {
+        while (num >= value) {
+            result += roman;
+            num -= value;
         }
+    }
+    return result;
+}
 
         function crearCursoElement(curso) {
             const [nombre, creditos, requisitos] = curso;
