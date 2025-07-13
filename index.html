@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Malla Curricular ✨</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>✨ Mi Malla Curricular ✨</h1>
+            <p id="carrera-name">Cargando...</p>
+        </header>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="cursados">0</span>
+                <span class="stat-label">Cursados</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="disponibles">0</span>
+                <span class="stat-label">Disponibles</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="bloqueados">0</span>
+                <span class="stat-label">Bloqueados</span>
+            </div>
+        </div>
+
+        <div class="malla-container" id="malla-container">
+            <!-- Los semestres se generarán dinámicamente -->
+        </div>
+
+        <div class="reset-button-container">
+            <button class="reset-button" onclick="resetearProgreso()">
+                🔄 Resetear Progreso
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
