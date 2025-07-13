@@ -268,30 +268,99 @@
     <script>
         // Datos de ejemplo - reemplaza con tu archivo JSON
         const mallaData = {
-            "carrera": "Bachillerato y Licenciatura en Educación Primaria - UCR",
-            "malla": {
-                "1": [
-                    ["Curso Integrado de Humanidades I (EG-I)", 6, []],
-                    ["Pedagogía y Tecnología I (FD0139)", 3, []],
-                    ["Fundamentos de la Educación I (FD0158)", 3, []]
-                ],
-                "2": [
-                    ["Curso Integrado de Humanidades II (EG-II)", 6, ["EG-I"]],
-                    ["Pedagogía y Tecnología II (FD0156)", 3, ["FD0139"]],
-                    ["Fundamentos de la Educación II (FD0159)", 3, ["FD0158", "FD0182"]]
-                ],
-                "3": [
-                    ["Matemáticas para Primaria I (MA0101)", 4, ["EG-II"]],
-                    ["Psicología del Desarrollo (PS0201)", 3, ["FD0159"]],
-                    ["Didáctica General (FD0205)", 4, ["FD0156", "FD0159"]]
-                ],
-                "4": [
-                    ["Matemáticas para Primaria II (MA0102)", 4, ["MA0101"]],
-                    ["Evaluación Educativa (FD0301)", 3, ["FD0205"]],
-                    ["Ciencias Naturales I (CN0101)", 4, ["PS0201"]]
-                ]
-            }
-        };
+  "carrera": "Bachillerato y Licenciatura en Educación Primaria - UCR",
+  "malla": {
+    "1": [
+      ["Curso Integrado de Humanidades I (EG-I)", 6, []],
+      ["Pedagogía y Tecnología I (FD0139)", 3, []],
+      ["Fundamentos de la Educación I (FD0158)", 3, []],
+      ["Introducción a la Educación Primaria (FD0182)", 2, []],
+      ["Habilidades Comunicativas para el Profesor (FD0254)", 4, []]
+    ],
+    "2": [
+      ["Actividad Deportiva (EF-)", 0, []],
+      ["Curso de Arte (EG-)", 2, []],
+      ["Curso Integrado de Humanidades II (EG-II)", 6, ["EG-I"]],
+      ["Pedagogía y Tecnología II (FD0156)", 3, ["FD0139"]],
+      ["Fundamentos de la Educación II (FD0159)", 3, ["FD0158", "FD0182"]],
+      ["Artes del Lenguaje en la Educación Primaria (FD0160)", 3, []]
+    ],
+    "3": [
+      ["Curriculum en el Contexto Escolar (FD0256)", 3, ["FD0159", "FD0182"]],
+      ["Metodología en la Educación Primaria I (FD0257)", 3, ["FD0159", "FD0182"]],
+      ["Estudios Sociales en la Educación Primaria (FD0400)", 3, []],
+      ["Matemática en la Educación Primaria I (FD0401)", 3, []],
+      ["Ciencias en la Educación Primaria I (FD0402)", 3, []],
+      ["Optativos de Bachillerato (OPT1164)", 3, []]
+    ],
+    "4": [
+      ["Procesos de Desarrollo y Aprendizaje Escolar (FD0138)", 4, ["FD0159", "FD0182"]],
+      ["Didáctica de la Lengua en el Ámbito Escolar (FD0163)", 2, ["FD0160"]],
+      ["Metodología en la Educación Primaria II (FD0258)", 3, ["FD0159", "FD0257"]],
+      ["Estudios Sociales en la Educación Primaria II (FD0514)", 3, ["FD0400"]],
+      ["Matemática en la Educación Primaria II (FD0515)", 3, ["FD0401"]],
+      ["Ciencias en la Educación Primaria II (FD0516)", 3, ["FD0402"]]
+    ],
+    "5": [
+      ["Artes Aplicadas a la Educación (FD0123)", 3, []],
+      ["Didáctica de la Lengua en el Ámbito Escolar II (FD0169)", 3, ["FD0163"]],
+      ["Literatura Infantil en la Escuela Primaria (FD1026)", 3, []],
+      ["Atención a la Diversidad I (OE0209)", 2, ["OE0369"]],
+      ["Atención a la Diversidad II (OE0369)", 2, ["OE0209"]],
+      ["Bloque Optativo de Idioma Intensivo I (OPT)", 4, []],
+      ["Seminario de Realidad Nacional I (SR-I)", 2, ["EG-II"]]
+    ],
+    "6": [
+      ["Didáctica de la Lengua III (FD0181)", 3, ["FD0169"]],
+      ["Investigación Educativa I (FD0188)", 3, ["FD0258", "FD0514", "FD0516"]],
+      ["Matemática en la Educación Primaria III (FD0259)", 3, ["FD0401", "FD0515"]],
+      ["Expresión Creadora (FD0517)", 3, []],
+      ["Evaluación en la Escuela Primaria (OE1029)", 3, []],
+      ["Bloque Optativo de Idioma Intensivo II (OPT)", 4, []]
+    ],
+    "7": [
+      ["Tendencias Actuales en la Enseñanza de lo Social (FD0127)", 3, ["FD0514"]],
+      ["Investigación Educativa II (FD0189)", 4, ["FD0188"]],
+      ["Seminario de Investigación en Didáctica de la Matemática (FD0264)", 2, ["FD0259", "FD0401", "FD0515"]],
+      ["Ciencias en la Educación Primaria III (FD1054)", 3, ["FD0516"]],
+      ["Repertorio I (RP-1)", 3, []],
+      ["Seminario de Realidad Nacional II (SR-II)", 2, ["SR-I"]]
+    ],
+    "8": [
+      ["Principios de la Gestión Educativa (EA0464)", 3, []],
+      ["Ética Profesional Docente (F5131)", 3, []],
+      ["Educación Rural y Escuela Unidocente (FD0157)", 3, ["FD0258"]],
+      ["Seminario Práctica Docente (FD0255)", 2, ["FD1046"]],
+      ["Práctica Profesional Docente en Educación (FD1046)", 6, ["FD0156", "FD0189", "FD0258", "FD0517", "OE0209", "OE1029"]]
+    ],
+    "9": [
+      ["Sociología Educativa (EA0371)", 3, []],
+      ["Taller de Investigación I (FD0178)", 3, []],
+      ["Seminario Realidad Educativa (FD0186)", 3, []],
+      ["Seminario de Investigación en Teorías del Aprendizaje (FD0187)", 3, []],
+      ["Educación Intercultural (FD0260)", 3, []],
+      ["Optativos de la Licenciatura (OPT1113)", 3, []]
+    ],
+    "10": [
+      ["Introducción a la Mediación Docente (EA0208)", 3, []],
+      ["Taller de Investigación II (FD0179)", 6, ["FD0178"]],
+      ["Enseñanza de la Comprensión Internacional (FD5045)", 3, []],
+      ["Orientación para el Desarrollo Personal (OE0361)", 3, []],
+      ["Optativos de la Licenciatura (OPT1113)", 3, []]
+    ],
+    "11": [
+      ["Investigación Dirigida I (FD9500)", 0, []],
+      ["Investigación Dirigida II (FD9501)", 0, []],
+      ["Investigación Dirigida III (FD9502)", 0, []],
+      ["Seminario de Graduación I (FD9600)", 0, []],
+      ["Seminario de Graduación II (FD9601)", 0, []],
+      ["Seminario de Graduación III (FD9602)", 0, []],
+      ["Práctica Dirigida I (FD9700)", 0, []],
+      ["Práctica Dirigida II (FD9701)", 0, []],
+      ["Práctica Dirigida III (FD9702)", 0, []]
+    ]
+  }
+};
 
         let cursosCompletados = JSON.parse(localStorage.getItem('cursosCompletados')) || [];
 
