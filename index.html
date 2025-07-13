@@ -227,6 +227,14 @@
             box-shadow: 0 8px 20px rgba(127, 127, 213, 0.2);
         }
 
+        .codigo-malla-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+}
+
         /* Responsive */
         @media (max-width: 768px) {
             .malla-container {
@@ -247,6 +255,26 @@
 </head>
 <body>
     <div class="container">
+        <div class="codigo-malla-bar">
+            <button class="reset-button" onclick="resetearProgreso()" title="Borra todos los cursos marcados y reinicia la malla">
+        🔄 Resetear progreso (borra todo)
+    </button>
+    <button class="reset-button" onclick="copiarCodigoMalla()" style="margin-left:10px;" title="Copia el estado actual de tu malla para compartir o guardar">
+        📋 Copiar código de malla actual
+    </button>
+    <input id="codigo-malla-input" placeholder="Pega aquí el código para restaurar tu malla" style="width:40%;padding:10px;border-radius:10px;border:1px solid #b388ff;margin-left:10px;" title="Pega aquí el código copiado de otra malla">
+    <button class="reset-button" onclick="cargarCodigoMalla()" style="margin-left:10px;" title="Carga el estado de la malla desde el código">
+        🔓 Restaurar malla desde código
+    </button>
+</div>
+<div style="font-size:0.95rem;color:#666;margin-bottom:15px;">
+    <strong>¿Cómo funciona?</strong><br>
+    <ul style="margin-left:18px;">
+        <li><b>Copiar código de malla actual:</b> Guarda el estado de tus cursos marcados. Puedes pegarlo en el campo y restaurarlo después.</li>
+        <li><b>Restaurar malla desde código:</b> Pega un código previamente copiado para recuperar tu avance o compartirlo con otra persona.</li>
+        <li><b>Resetear progreso:</b> Borra todos los cursos marcados y reinicia la malla desde cero.</li>
+    </ul>
+</div>
         <header class="header">
             <h1 id="carrera-name">Cargando...</h1>
             <p>Malla Curricular</p>
@@ -271,12 +299,6 @@
             <!-- Los semestres se generarán dinámicamente -->
         </div>
 
-        <div class="reset-button-container">
-    <button class="reset-button" onclick="resetearProgreso()">🔄 Resetear Progreso</button>
-    <button class="reset-button" onclick="copiarCodigoMalla()" style="margin-left:10px;">📋 Copiar Código</button>
-    <input id="codigo-malla-input" placeholder="Pega el código aquí" style="width:50%;padding:10px;border-radius:10px;border:1px solid #b388ff;margin-left:10px;">
-    <button class="reset-button" onclick="cargarCodigoMalla()" style="margin-left:10px;">🔓 Cargar</button>
-</div>
     </div>
 
     <script>
