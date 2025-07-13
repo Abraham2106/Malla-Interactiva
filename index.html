@@ -4,7 +4,233 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Malla Curricular ✨</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .malla-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .semestre {
+            min-width: 300px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .semestre h3 {
+            color: #8b4513;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .curso {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .curso::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .curso:hover::before {
+            left: 100%;
+        }
+
+        .curso.cursado {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-color: #4ecdc4;
+            transform: scale(1.02);
+        }
+
+        .curso.cursado::after {
+            content: '✅';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .curso.disponible {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            border-color: #ff6b6b;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .curso.bloqueado {
+            background: #f0f0f0;
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .curso.bloqueado::after {
+            content: '🔒';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .curso-nombre {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .curso-creditos {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .curso-requisitos {
+            font-size: 0.75rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        .reset-button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .reset-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .reset-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .malla-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .semestre {
+                min-width: 100%;
+                max-width: 400px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -39,6 +265,204 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Datos de ejemplo - reemplaza con tu archivo JSON
+        const mallaData = {
+            "carrera": "Bachillerato y Licenciatura en Educación Primaria - UCR",
+            "malla": {
+                "1": [
+                    ["Curso Integrado de Humanidades I (EG-I)", 6, []],
+                    ["Pedagogía y Tecnología I (FD0139)", 3, []],
+                    ["Fundamentos de la Educación I (FD0158)", 3, []]
+                ],
+                "2": [
+                    ["Curso Integrado de Humanidades II (EG-II)", 6, ["EG-I"]],
+                    ["Pedagogía y Tecnología II (FD0156)", 3, ["FD0139"]],
+                    ["Fundamentos de la Educación II (FD0159)", 3, ["FD0158", "FD0182"]]
+                ],
+                "3": [
+                    ["Matemáticas para Primaria I (MA0101)", 4, ["EG-II"]],
+                    ["Psicología del Desarrollo (PS0201)", 3, ["FD0159"]],
+                    ["Didáctica General (FD0205)", 4, ["FD0156", "FD0159"]]
+                ],
+                "4": [
+                    ["Matemáticas para Primaria II (MA0102)", 4, ["MA0101"]],
+                    ["Evaluación Educativa (FD0301)", 3, ["FD0205"]],
+                    ["Ciencias Naturales I (CN0101)", 4, ["PS0201"]]
+                ]
+            }
+        };
+
+        let cursosCompletados = JSON.parse(localStorage.getItem('cursosCompletados')) || [];
+
+        function inicializarMalla() {
+            // Mostrar nombre de la carrera
+            document.getElementById('carrera-name').textContent = mallaData.carrera;
+            
+            // Generar la malla por semestres
+            const mallaContainer = document.getElementById('malla-container');
+            mallaContainer.innerHTML = '';
+            
+            Object.keys(mallaData.malla).forEach(semestre => {
+                const semestreDiv = document.createElement('div');
+                semestreDiv.className = 'semestre';
+                
+                const titulo = document.createElement('h3');
+                titulo.textContent = `Semestre ${semestre}`;
+                semestreDiv.appendChild(titulo);
+                
+                mallaData.malla[semestre].forEach(curso => {
+                    const cursoDiv = crearCursoElement(curso);
+                    semestreDiv.appendChild(cursoDiv);
+                });
+                
+                mallaContainer.appendChild(semestreDiv);
+            });
+            
+            actualizarEstadoCursos();
+            actualizarEstadisticas();
+        }
+
+        function crearCursoElement(curso) {
+            const [nombre, creditos, requisitos] = curso;
+            
+            const cursoDiv = document.createElement('div');
+            cursoDiv.className = 'curso';
+            cursoDiv.dataset.codigo = extraerCodigo(nombre);
+            
+            const nombreDiv = document.createElement('div');
+            nombreDiv.className = 'curso-nombre';
+            nombreDiv.textContent = nombre;
+            
+            const creditosDiv = document.createElement('div');
+            creditosDiv.className = 'curso-creditos';
+            creditosDiv.textContent = `${creditos} créditos`;
+            
+            const requisitosDiv = document.createElement('div');
+            requisitosDiv.className = 'curso-requisitos';
+            if (requisitos.length > 0) {
+                requisitosDiv.textContent = `Requisitos: ${requisitos.join(', ')}`;
+            } else {
+                requisitosDiv.textContent = 'Sin requisitos';
+            }
+            
+            cursoDiv.appendChild(nombreDiv);
+            cursoDiv.appendChild(creditosDiv);
+            cursoDiv.appendChild(requisitosDiv);
+            
+            cursoDiv.addEventListener('click', () => toggleCurso(cursoDiv.dataset.codigo));
+            
+            return cursoDiv;
+        }
+
+        function extraerCodigo(nombreCompleto) {
+            const match = nombreCompleto.match(/\(([^)]+)\)/);
+            return match ? match[1] : nombreCompleto.split(' ')[0];
+        }
+
+        function toggleCurso(codigo) {
+            const cursoElement = document.querySelector(`[data-codigo="${codigo}"]`);
+            
+            if (cursoElement.classList.contains('bloqueado')) {
+                return; // No se puede hacer click en cursos bloqueados
+            }
+            
+            if (cursosCompletados.includes(codigo)) {
+                // Desmarcar curso
+                cursosCompletados = cursosCompletados.filter(c => c !== codigo);
+            } else {
+                // Marcar curso como completado
+                cursosCompletados.push(codigo);
+            }
+            
+            localStorage.setItem('cursosCompletados', JSON.stringify(cursosCompletados));
+            actualizarEstadoCursos();
+            actualizarEstadisticas();
+        }
+
+        function actualizarEstadoCursos() {
+            const todosCursos = document.querySelectorAll('.curso');
+            
+            todosCursos.forEach(cursoElement => {
+                const codigo = cursoElement.dataset.codigo;
+                const requisitos = obtenerRequisitos(codigo);
+                
+                // Limpiar clases
+                cursoElement.classList.remove('cursado', 'disponible', 'bloqueado');
+                
+                if (cursosCompletados.includes(codigo)) {
+                    cursoElement.classList.add('cursado');
+                } else if (requisitosCompletados(requisitos)) {
+                    cursoElement.classList.add('disponible');
+                } else {
+                    cursoElement.classList.add('bloqueado');
+                }
+            });
+        }
+
+        function obtenerRequisitos(codigo) {
+            for (let semestre in mallaData.malla) {
+                for (let curso of mallaData.malla[semestre]) {
+                    if (extraerCodigo(curso[0]) === codigo) {
+                        return curso[2];
+                    }
+                }
+            }
+            return [];
+        }
+
+        function requisitosCompletados(requisitos) {
+            return requisitos.every(req => cursosCompletados.includes(req));
+        }
+
+        function actualizarEstadisticas() {
+            const todosCursos = document.querySelectorAll('.curso');
+            let cursados = 0;
+            let disponibles = 0;
+            let bloqueados = 0;
+            
+            todosCursos.forEach(curso => {
+                if (curso.classList.contains('cursado')) {
+                    cursados++;
+                } else if (curso.classList.contains('disponible')) {
+                    disponibles++;
+                } else if (curso.classList.contains('bloqueado')) {
+                    bloqueados++;
+                }
+            });
+            
+            document.getElementById('cursados').textContent = cursados;
+            document.getElementById('disponibles').textContent = disponibles;
+            document.getElementById('bloqueados').textContent = bloqueados;
+        }
+
+        function resetearProgreso() {
+            if (confirm('¿Estás segura de que quieres resetear todo el progreso? 🥺')) {
+                cursosCompletados = [];
+                localStorage.removeItem('cursosCompletados');
+                actualizarEstadoCursos();
+                actualizarEstadisticas();
+            }
+        }
+
+        // Cargar JSON desde archivo (opcional)
+        function cargarJSON(archivo) {
+            fetch(archivo)
+                .then(response => response.json())
+                .then(data => {
+                    Object.assign(mallaData, data);
+                    inicializarMalla();
+                })
+                .catch(error => {
+                    console.error('Error cargando JSON:', error);
+                    inicializarMalla(); // Usar datos por defecto
+                });
+        }
+
+        // Inicializar cuando cargue la página
+        document.addEventListener('DOMContentLoaded', () => {
+            inicializarMalla();
+        });
+    </script>
 </body>
 </html>
