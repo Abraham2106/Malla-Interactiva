@@ -91,14 +91,21 @@
             padding: 20px 0;
         }
 
+        .malla-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+
         .semestre {
-            min-width: 300px;
+            width: 100%;
             background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-
+        
         .semestre h3 {
             color: #8b4513;
             font-size: 1.3rem;
@@ -107,6 +114,12 @@
             background: rgba(255, 255, 255, 0.7);
             padding: 10px;
             border-radius: 10px;
+        }
+        
+        .cursos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
         }
 
         .curso {
@@ -380,10 +393,15 @@
                 titulo.textContent = `Semestre ${semestre}`;
                 semestreDiv.appendChild(titulo);
                 
+                const cursosGrid = document.createElement('div');
+                cursosGrid.className = 'cursos-grid';
+
                 mallaData.malla[semestre].forEach(curso => {
-                    const cursoDiv = crearCursoElement(curso);
-                    semestreDiv.appendChild(cursoDiv);
+                const cursoDiv = crearCursoElement(curso);
+                cursosGrid.appendChild(cursoDiv);
                 });
+
+                semestreDiv.appendChild(cursosGrid);
                 
                 mallaContainer.appendChild(semestreDiv);
             });
