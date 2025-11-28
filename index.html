@@ -1,373 +1,356 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malla Curricular</title>
-    <link rel="icon" type="image/x-icon" href="sparkling-mirror-disco-ball-icon-600nw-2247344999.ico">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <div class="codigo-malla-bar">
-            <button class="reset-button" onclick="resetearProgreso()" title="Borra todos los cursos marcados y reinicia la malla">
-        🔄 Resetear progreso (borra todo)
-    </button>
-    <button class="reset-button" onclick="copiarCodigoMalla()" style="margin-left:10px;" title="Copia el estado actual de tu malla para compartir o guardar">
-        📋 Copiar código de malla actual
-    </button>
-    <input id="codigo-malla-input" placeholder="Pega aquí el código para restaurar tu malla" style="width:40%;padding:10px;border-radius:10px;border:1px solid #b388ff;margin-left:10px;" title="Pega aquí el código copiado de otra malla">
-    <button class="reset-button" onclick="cargarCodigoMalla()" style="margin-left:10px;" title="Carga el estado de la malla desde el código">
-        🔓 Restaurar malla desde código
-    </button>
-</div>
-<div style="font-size:0.95rem;color:#666;margin-bottom:15px;">
-    <strong>¿Cómo funciona?</strong><br>
-    <ul style="margin-left:18px;">
-        <li><b>Copiar código de malla actual:</b> Guarda el estado de tus cursos marcados. Puedes pegarlo en el campo y restaurarlo después.</li>
-        <li><b>Restaurar malla desde código:</b> Pega un código previamente copiado para recuperar tu avance o compartirlo con otra persona.</li>
-        <li><b>Resetear progreso:</b> Borra todos los cursos marcados y reinicia la malla desde cero.</li>
-    </ul>
-</div>
-        <header class="header">
-            <h1 id="carrera-name">Cargando...</h1>
-            <p>Malla Curricular</p>
-        </header>
-        
-        <div class="stats">
-            <div class="stat-card">
-                <span class="stat-number" id="cursados">0</span>
-                <span class="stat-label">Cursados</span>
+import React, { useState } from 'react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+
+const FinancialDashboard = () => {
+  const [view, setView] = useState('gastos');
+
+  // ANÁLISIS DE SOBRES - ENTRADAS (Depósitos al sistema)
+  const entradasSobres = [
+    { monto: 57500.00, descripcion: 'Sobre Alquiler' },
+    { monto: 47000.00, descripcion: 'Sobre Refrigerador' },
+    { monto: 40000.00, descripcion: 'Sobre 1' },
+    { monto: 60000.00, descripcion: 'Sobre 2' },
+    { monto: 25000.00, descripcion: 'Sobre 3' },
+    { monto: 10000.00, descripcion: 'Sobre 4' },
+    { monto: 65000.00, descripcion: 'Sobre 5' },
+    { monto: 902.09, descripcion: 'Sobre 6' }
+  ];
+
+  // ANÁLISIS DE SOBRES - SALIDAS (Retiros del sistema)
+  const salidasSobres = [
+    { monto: 11500.00, fecha: '27/11/2025', descripcion: 'RETIRO SOBRE N 1053865 DJDJ' },
+    { monto: 7000.00, fecha: '21/11/2025', descripcion: 'RETIRO SOBRE N 1053876 GASSS' },
+    { monto: 7500.00, fecha: '20/11/2025', descripcion: 'RETIRO SOBRE N 1053865 HHVIK' },
+    { monto: 6000.00, fecha: '19/11/2025', descripcion: 'RETIRO SOBRE N 1053865 NANLIS' },
+    { monto: 5000.00, fecha: '17/11/2025', descripcion: 'RETIRO SOBRE N 1053865 COMIDA' },
+    { monto: 5000.00, fecha: '17/11/2025', descripcion: 'RETIRO SOBRE N 1053885 KDKDKDKD' },
+    { monto: 6911.00, fecha: '17/11/2025', descripcion: 'RETIRO SOBRE N 1053865 DJDJDJDJ' },
+    { monto: 6000.00, fecha: '11/11/2025', descripcion: 'RETIRO SOBRE N 1053865 DEUDA' },
+    { monto: 40000.00, fecha: '11/11/2025', descripcion: 'RETIRO SOBRE N 1053882 DODKDKD' },
+    { monto: 15000.00, fecha: '10/11/2025', descripcion: 'RETIRO SOBRE N 1053865 COMIDA' },
+    { monto: 47000.52, fecha: '10/11/2025', descripcion: 'RETIRO SOBRE N 1053905 (Refrigerador)' },
+    { monto: 10000.00, fecha: '07/11/2025', descripcion: 'RETIRO SOBRE N 1053885 DJDISO' },
+    { monto: 25000.00, fecha: '07/11/2025', descripcion: 'RETIRO SOBRE N 1280665 NALLISON' },
+    { monto: 3000.00, fecha: '07/11/2025', descripcion: 'RETIRO SOBRE N 1053865 COMIDA' }
+  ];
+
+  const totalEntradasSobres = entradasSobres.reduce((sum, item) => sum + item.monto, 0);
+  const totalSalidasSobres = salidasSobres.reduce((sum, item) => sum + item.monto, 0);
+  const saldoSobres = totalEntradasSobres - totalSalidasSobres;
+
+  // Análisis detallado de GASTOS DIRECTOS (sin contar sobres)
+  const gastos = {
+    'Alimentación - Delivery y Restaurantes': 21287.00, // PedidosYa, Subway, Pizza, Aroma y Sabor
+    'Supermercados': 64476.00, // Pali, Fresh Market, Minisuper
+    'Transporte (Uber)': 5304.46,
+    'Entretenimiento': 14949.46, // Multicines (7200), Steam Games (7749.46)
+    'Servicios Públicos': 20477.00, // JASEC (11800), Internet (4795), Pago M (8096.51) pero sin incluir sobres
+    'Pagos Personales y Transferencias': 40717.00, // ICE (11999.99), Transferencias varias
+    'Retiros ATM': 2000.00,
+    'Compras Online': 5000.00, // Shein
+    'Papelería y Librería': 2065.00,
+    'Gas': 10000.00, // Gas 62953340, Gas 88669574
+    'Otros Gastos': 17111.00 // Varios pequeños
+  };
+
+  const ingresos = {
+    'Salario Principal': 322000.00,
+    'Transferencias Recibidas': 15000.00
+  };
+
+  const totalGastos = Object.values(gastos).reduce((a, b) => a + b, 0);
+  const totalIngresos = Object.values(ingresos).reduce((a, b) => a + b, 0);
+
+  // Balance final: Ingresos - Gastos Directos - Entradas a Sobres + Salidas de Sobres
+  const balanceFinal = totalIngresos - totalGastos - totalEntradasSobres + totalSalidasSobres;
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC658', '#FF6B9D', '#C44569', '#A8E6CF'];
+
+  const formatCurrency = (value) => {
+    return `₡${value.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
+
+  const gastosData = Object.entries(gastos).map(([name, value]) => ({
+    name,
+    value,
+    percentage: ((value / totalGastos) * 100).toFixed(1)
+  }));
+
+  const ingresosData = Object.entries(ingresos).map(([name, value]) => ({
+    name,
+    value,
+    percentage: ((value / totalIngresos) * 100).toFixed(1)
+  }));
+
+  const movimientosSobresData = [
+    { categoria: 'Entradas', monto: totalEntradasSobres, color: '#00C49F' },
+    { categoria: 'Salidas', monto: totalSalidasSobres, color: '#FF8042' },
+    { categoria: 'Saldo Actual', monto: saldoSobres, color: '#0088FE' }
+  ];
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 border-2 border-gray-300 rounded shadow-lg">
+          <p className="font-semibold text-gray-800">{payload[0].name}</p>
+          <p className="text-blue-600">{formatCurrency(payload[0].value)}</p>
+          <p className="text-sm text-gray-600">{payload[0].payload.percentage}%</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-blue-900">Banco Nacional de Costa Rica</h1>
+              <p className="text-gray-600 mt-1">Análisis Financiero con Sistema de Sobres</p>
+              <p className="text-sm text-gray-500">Período: 06/11/2025 - 27/11/2025</p>
             </div>
-            <div class="stat-card">
-                <span class="stat-number" id="disponibles">0</span>
-                <span class="stat-label">Disponibles</span>
+            <div className="text-right">
+              <p className="text-sm text-gray-600">Balance Final</p>
+              <p className={`text-3xl font-bold ${balanceFinal >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {formatCurrency(balanceFinal)}
+              </p>
             </div>
-            <div class="stat-card">
-                <span class="stat-number" id="bloqueados">0</span>
-                <span class="stat-label">Bloqueados</span>
-            </div>
+          </div>
         </div>
 
-        <div class="malla-container" id="malla-container">
-            <!-- Los semestres se generarán dinámicamente -->
+        {/* Resumen Financiero */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-green-500 text-white rounded-lg shadow-lg p-5">
+            <p className="text-sm opacity-90">Ingresos Totales</p>
+            <p className="text-2xl font-bold">{formatCurrency(totalIngresos)}</p>
+          </div>
+          <div className="bg-red-500 text-white rounded-lg shadow-lg p-5">
+            <p className="text-sm opacity-90">Gastos Directos</p>
+            <p className="text-2xl font-bold">{formatCurrency(totalGastos)}</p>
+          </div>
+          <div className="bg-blue-500 text-white rounded-lg shadow-lg p-5">
+            <p className="text-sm opacity-90">Entradas a Sobres</p>
+            <p className="text-2xl font-bold">{formatCurrency(totalEntradasSobres)}</p>
+          </div>
+          <div className="bg-purple-500 text-white rounded-lg shadow-lg p-5">
+            <p className="text-sm opacity-90">Salidas de Sobres</p>
+            <p className="text-2xl font-bold">{formatCurrency(totalSalidasSobres)}</p>
+          </div>
         </div>
 
+        {/* Sistema de Sobres - Resumen */}
+        <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-bold mb-4">💰 Sistema de Sobres</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+              <p className="text-sm opacity-90">Total Depositado en Sobres</p>
+              <p className="text-2xl font-bold">{formatCurrency(totalEntradasSobres)}</p>
+              <p className="text-xs mt-1">{entradasSobres.length} depósitos</p>
+            </div>
+            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+              <p className="text-sm opacity-90">Total Retirado de Sobres</p>
+              <p className="text-2xl font-bold">{formatCurrency(totalSalidasSobres)}</p>
+              <p className="text-xs mt-1">{salidasSobres.length} retiros</p>
+            </div>
+            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+              <p className="text-sm opacity-90">Saldo Actual en Sobres</p>
+              <p className="text-2xl font-bold">{formatCurrency(saldoSobres)}</p>
+              <p className="text-xs mt-1">Disponible</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Navegación */}
+        <div className="bg-white rounded-lg shadow-lg p-4 mb-6">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setView('gastos')}
+              className={`px-6 py-2 rounded-lg font-semibold transition ${
+                view === 'gastos' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              Gastos Directos
+            </button>
+            <button
+              onClick={() => setView('ingresos')}
+              className={`px-6 py-2 rounded-lg font-semibold transition ${
+                view === 'ingresos' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              Ingresos
+            </button>
+            <button
+              onClick={() => setView('sobres')}
+              className={`px-6 py-2 rounded-lg font-semibold transition ${
+                view === 'sobres' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              Movimientos Sobres
+            </button>
+            <button
+              onClick={() => setView('detalle-sobres')}
+              className={`px-6 py-2 rounded-lg font-semibold transition ${
+                view === 'detalle-sobres' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              Detalle Sobres
+            </button>
+          </div>
+        </div>
+
+        {/* Gráficos */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Gráfico Principal */}
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              {view === 'gastos' && 'Distribución de Gastos Directos'}
+              {view === 'ingresos' && 'Fuentes de Ingreso'}
+              {view === 'sobres' && 'Estado del Sistema de Sobres'}
+              {view === 'detalle-sobres' && 'Análisis de Sobres'}
+            </h2>
+            {(view === 'gastos' || view === 'ingresos') && (
+              <ResponsiveContainer width="100%" height={350}>
+                <PieChart>
+                  <Pie
+                    data={view === 'gastos' ? gastosData : ingresosData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({percentage}) => `${percentage}%`}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {(view === 'gastos' ? gastosData : ingresosData).map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip content={<CustomTooltip />} />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
+            {view === 'sobres' && (
+              <ResponsiveContainer width="100%" height={350}>
+                <BarChart data={movimientosSobresData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="categoria" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => formatCurrency(value)} />
+                  <Bar dataKey="monto" fill="#0088FE">
+                    {movimientosSobresData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+            {view === 'detalle-sobres' && (
+              <div className="h-[350px] overflow-y-auto">
+                <h3 className="font-semibold text-green-700 mb-3">📥 Entradas a Sobres</h3>
+                {entradasSobres.map((item, idx) => (
+                  <div key={idx} className="bg-green-50 p-3 rounded mb-2 border-l-4 border-green-500">
+                    <div className="flex justify-between">
+                      <span className="text-sm font-medium">{item.descripcion}</span>
+                      <span className="font-bold text-green-700">{formatCurrency(item.monto)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Detalle de Categorías o Salidas */}
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              {view === 'detalle-sobres' ? 'Salidas de Sobres' : 'Detalle por Categoría'}
+            </h2>
+            {view === 'detalle-sobres' ? (
+              <div className="space-y-2 max-h-96 overflow-y-auto">
+                <h3 className="font-semibold text-red-700 mb-3">📤 Retiros de Sobres</h3>
+                {salidasSobres.map((item, idx) => (
+                  <div key={idx} className="bg-red-50 p-3 rounded border-l-4 border-red-500">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="text-xs text-gray-600">{item.fecha}</span>
+                        <p className="text-sm font-medium">{item.descripcion}</p>
+                      </div>
+                      <span className="font-bold text-red-700">{formatCurrency(item.monto)}</span>
+                    </div>
+                  </div>
+                ))}
+                <div className="border-t-2 pt-3 mt-3 bg-gray-50 p-3 rounded">
+                  <div className="flex justify-between items-center">
+                    <p className="font-bold text-gray-800">Total Retirado</p>
+                    <p className="font-bold text-red-600">{formatCurrency(totalSalidasSobres)}</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {(view === 'gastos' ? gastosData : view === 'ingresos' ? ingresosData : movimientosSobresData).map((item, index) => (
+                  <div key={index} className="border-l-4 pl-4 py-2" style={{borderColor: COLORS[index % COLORS.length]}}>
+                    <div className="flex justify-between items-start">
+                      <p className="font-semibold text-gray-700">{item.name || item.categoria}</p>
+                      <p className="text-right">
+                        <span className="font-bold text-gray-900">{formatCurrency(item.value || item.monto)}</span>
+                        {item.percentage && <span className="text-sm text-gray-500 ml-2">({item.percentage}%)</span>}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+                <div className="border-t-2 pt-3 mt-3">
+                  <div className="flex justify-between items-center">
+                    <p className="font-bold text-lg text-gray-800">Total</p>
+                    <p className="font-bold text-lg text-blue-600">
+                      {formatCurrency(view === 'gastos' ? totalGastos : view === 'ingresos' ? totalIngresos : totalEntradasSobres)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Observaciones del Analista */}
+        <div className="bg-white rounded-lg shadow-lg p-6 mt-6">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">📊 Análisis Financiero del Período</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-blue-900 mb-2">💰 Flujo General</h3>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li>• Ingresos: {formatCurrency(totalIngresos)}</li>
+                <li>• Gastos Directos: {formatCurrency(totalGastos)}</li>
+                <li>• Depositado en Sobres: {formatCurrency(totalEntradasSobres)}</li>
+                <li>• Retirado de Sobres: {formatCurrency(totalSalidasSobres)}</li>
+                <li className="font-bold pt-2">• Balance Final: {formatCurrency(balanceFinal)}</li>
+              </ul>
+            </div>
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-green-900 mb-2">✅ Puntos Positivos</h3>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li>• Excelente organización con sistema de sobres</li>
+                <li>• Saldo positivo en sobres: {formatCurrency(saldoSobres)}</li>
+                <li>• Ingresos estables de ₡337,000</li>
+                <li>• Buen control de gastos fijos mediante sobres</li>
+              </ul>
+            </div>
+            <div className="bg-yellow-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-yellow-900 mb-2">⚠️ Recomendaciones</h3>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li>• Muchos retiros de sobres para "comida" (₡23,000+)</li>
+                <li>• Considerar aumentar presupuesto de alimentación</li>
+                <li>• Supermercados: ₡64,476 (19.1% del ingreso)</li>
+                <li>• Evaluar reducir gastos en delivery</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <footer style="text-align:center; color:#888; margin-top:40px; font-size:1rem;">
-        Version Beta - Educa UCR &rarr;
-    </footer>
-
-    <script>
-        // Datos de ejemplo - reemplaza con tu archivo JSON
-        const mallaData = {
-  "carrera": "Bachillerato y Licenciatura en Educación Primaria - UCR",
-  "malla": {
-    "1": [
-      ["Curso Integrado de Humanidades I (EG-I)", 6, []],
-      ["Pedagogía y Tecnología I (FD0139)", 3, []],
-      ["Fundamentos de la Educación I (FD0158)", 3, []],
-      ["Introducción a la Educación Primaria (FD0182)", 2, []],
-      ["Habilidades Comunicativas para el Profesor (FD0254)", 4, []]
-    ],
-    "2": [
-      ["Actividad Deportiva (EF-)", 0, []],
-      ["Curso de Arte (EG-)", 2, []],
-      ["Curso Integrado de Humanidades II (EG-II)", 6, ["EG-I"]],
-      ["Pedagogía y Tecnología II (FD0156)", 3, ["FD0139"]],
-      ["Fundamentos de la Educación II (FD0159)", 3, ["FD0158", "FD0182"]],
-      ["Artes del Lenguaje en la Educación Primaria (FD0160)", 3, []]
-    ],
-    "3": [
-      ["Curriculum en el Contexto Escolar (FD0256)", 3, ["FD0159", "FD0182"]],
-      ["Metodología en la Educación Primaria I (FD0257)", 3, ["FD0159", "FD0182"]],
-      ["Estudios Sociales en la Educación Primaria (FD0400)", 3, []],
-      ["Matemática en la Educación Primaria I (FD0401)", 3, []],
-      ["Ciencias en la Educación Primaria I (FD0402)", 3, []],
-      ["Optativos de Bachillerato (OPT1164)", 3, []]
-    ],
-    "4": [
-      ["Procesos de Desarrollo y Aprendizaje Escolar (FD0138)", 4, ["FD0159", "FD0182"]],
-      ["Didáctica de la Lengua en el Ámbito Escolar (FD0163)", 2, ["FD0160"]],
-      ["Metodología en la Educación Primaria II (FD0258)", 3, ["FD0159", "FD0257"]],
-      ["Estudios Sociales en la Educación Primaria II (FD0514)", 3, ["FD0400"]],
-      ["Matemática en la Educación Primaria II (FD0515)", 3, ["FD0401"]],
-      ["Ciencias en la Educación Primaria II (FD0516)", 3, ["FD0402"]]
-    ],
-    "5": [
-      ["Artes Aplicadas a la Educación (FD0123)", 3, []],
-      ["Didáctica de la Lengua en el Ámbito Escolar II (FD0169)", 3, ["FD0163"]],
-      ["Literatura Infantil en la Escuela Primaria (FD1026)", 3, []],
-      ["Atención a la Diversidad I (OE0209)", 2, ["OE0369"]],
-      ["Atención a la Diversidad II (OE0369)", 2, ["OE0209"]],
-      ["Bloque Optativo de Idioma Intensivo I (OPT)", 4, []],
-      ["Seminario de Realidad Nacional I (SR-I)", 2, ["EG-II"]]
-    ],
-    "6": [
-      ["Didáctica de la Lengua III (FD0181)", 3, ["FD0169"]],
-      ["Investigación Educativa I (FD0188)", 3, ["FD0258", "FD0514", "FD0516"]],
-      ["Matemática en la Educación Primaria III (FD0259)", 3, ["FD0401", "FD0515"]],
-      ["Expresión Creadora (FD0517)", 3, []],
-      ["Evaluación en la Escuela Primaria (OE1029)", 3, []],
-      ["Bloque Optativo de Idioma Intensivo II (OPT)", 4, []]
-    ],
-    "7": [
-      ["Tendencias Actuales en la Enseñanza de lo Social (FD0127)", 3, ["FD0514"]],
-      ["Investigación Educativa II (FD0189)", 4, ["FD0188"]],
-      ["Seminario de Investigación en Didáctica de la Matemática (FD0264)", 2, ["FD0259", "FD0401", "FD0515"]],
-      ["Ciencias en la Educación Primaria III (FD1054)", 3, ["FD0516"]],
-      ["Repertorio I (RP-1)", 3, []],
-      ["Seminario de Realidad Nacional II (SR-II)", 2, ["SR-I"]]
-    ],
-    "8": [
-      ["Principios de la Gestión Educativa (EA0464)", 3, []],
-      ["Ética Profesional Docente (F5131)", 3, []],
-      ["Educación Rural y Escuela Unidocente (FD0157)", 3, ["FD0258"]],
-      ["Seminario Práctica Docente (FD0255)", 2, ["FD1046"]],
-      ["Práctica Profesional Docente en Educación (FD1046)", 6, ["FD0156", "FD0189", "FD0258", "FD0517", "OE0209", "OE1029"]]
-    ],
-    "9": [
-      ["Sociología Educativa (EA0371)", 3, []],
-      ["Taller de Investigación I (FD0178)", 3, []],
-      ["Seminario Realidad Educativa (FD0186)", 3, []],
-      ["Seminario de Investigación en Teorías del Aprendizaje (FD0187)", 3, []],
-      ["Educación Intercultural (FD0260)", 3, []],
-      ["Optativos de la Licenciatura (OPT1113)", 3, []]
-    ],
-    "10": [
-      ["Introducción a la Mediación Docente (EA0208)", 3, []],
-      ["Taller de Investigación II (FD0179)", 6, ["FD0178"]],
-      ["Enseñanza de la Comprensión Internacional (FD5045)", 3, []],
-      ["Orientación para el Desarrollo Personal (OE0361)", 3, []],
-      ["Optativos de la Licenciatura (OPT1113)", 3, []]
-    ],
-    "11": [
-      ["Investigación Dirigida I (FD9500)", 0, []],
-      ["Investigación Dirigida II (FD9501)", 0, []],
-      ["Investigación Dirigida III (FD9502)", 0, []],
-      ["Seminario de Graduación I (FD9600)", 0, []],
-      ["Seminario de Graduación II (FD9601)", 0, []],
-      ["Seminario de Graduación III (FD9602)", 0, []],
-      ["Práctica Dirigida I (FD9700)", 0, []],
-      ["Práctica Dirigida II (FD9701)", 0, []],
-      ["Práctica Dirigida III (FD9702)", 0, []]
-    ]
-  }
+  );
 };
 
-        let cursosCompletados = JSON.parse(localStorage.getItem('cursosCompletados')) || [];
-
-        function inicializarMalla() {
-            // Mostrar nombre de la carrera
-            document.getElementById('carrera-name').textContent = mallaData.carrera;
-
-    // Generar la malla por semestres
-    const mallaContainer = document.getElementById('malla-container');
-    mallaContainer.innerHTML = '';
-
-    Object.keys(mallaData.malla).forEach(semestre => {
-        const semestreDiv = document.createElement('div');
-        semestreDiv.className = 'semestre';
-
-        const titulo = document.createElement('h3');
-        titulo.textContent = `Ciclo ${toRoman(semestre)}`;
-        semestreDiv.appendChild(titulo);
-
-        const cursosGrid = document.createElement('div');
-        cursosGrid.className = 'cursos-grid';
-
-        mallaData.malla[semestre].forEach(curso => {
-            const cursoDiv = crearCursoElement(curso);
-            cursosGrid.appendChild(cursoDiv);
-        });
-
-        semestreDiv.appendChild(cursosGrid);
-
-        mallaContainer.appendChild(semestreDiv);
-    });
-
-    actualizarEstadoCursos();
-    actualizarEstadisticas();
-}
-
-// Función para convertir números arábigos a romanos
-function toRoman(num) {
-    num = parseInt(num);
-    const romans = [
-        ["M",1000],["CM",900],["D",500],["CD",400],["C",100],["XC",90],
-        ["L",50],["XL",40],["X",10],["IX",9],["V",5],["IV",4],["I",1]
-    ];
-    let result = "";
-    for (const [roman, value] of romans) {
-        while (num >= value) {
-            result += roman;
-            num -= value;
-        }
-    }
-    return result;
-}
-
-        function crearCursoElement(curso) {
-            const [nombre, creditos, requisitos] = curso;
-            
-            const cursoDiv = document.createElement('div');
-            cursoDiv.className = 'curso';
-            cursoDiv.dataset.codigo = extraerCodigo(nombre);
-            
-            const nombreDiv = document.createElement('div');
-            nombreDiv.className = 'curso-nombre';
-            nombreDiv.textContent = nombre;
-            
-            const creditosDiv = document.createElement('div');
-            creditosDiv.className = 'curso-creditos';
-            creditosDiv.textContent = `${creditos} créditos`;
-            
-            const requisitosDiv = document.createElement('div');
-            requisitosDiv.className = 'curso-requisitos';
-            if (requisitos.length > 0) {
-                requisitosDiv.textContent = `Requisitos: ${requisitos.join(', ')}`;
-            } else {
-                requisitosDiv.textContent = 'Sin requisitos';
-            }
-            
-            cursoDiv.appendChild(nombreDiv);
-            cursoDiv.appendChild(creditosDiv);
-            cursoDiv.appendChild(requisitosDiv);
-            
-            cursoDiv.addEventListener('click', () => toggleCurso(cursoDiv.dataset.codigo));
-            
-            return cursoDiv;
-        }
-
-        function extraerCodigo(nombreCompleto) {
-            const match = nombreCompleto.match(/\(([^)]+)\)/);
-            return match ? match[1] : nombreCompleto.split(' ')[0];
-        }
-
-        function toggleCurso(codigo) {
-            const cursoElement = document.querySelector(`[data-codigo="${codigo}"]`);
-            
-            if (cursoElement.classList.contains('bloqueado')) {
-                return; // No se puede hacer click en cursos bloqueados
-            }
-            
-            if (cursosCompletados.includes(codigo)) {
-                // Desmarcar curso
-                cursosCompletados = cursosCompletados.filter(c => c !== codigo);
-            } else {
-                // Marcar curso como completado
-                cursosCompletados.push(codigo);
-            }
-            
-            localStorage.setItem('cursosCompletados', JSON.stringify(cursosCompletados));
-            actualizarEstadoCursos();
-            actualizarEstadisticas();
-        }
-
-        function actualizarEstadoCursos() {
-            const todosCursos = document.querySelectorAll('.curso');
-            
-            todosCursos.forEach(cursoElement => {
-                const codigo = cursoElement.dataset.codigo;
-                const requisitos = obtenerRequisitos(codigo);
-                
-                // Limpiar clases
-                cursoElement.classList.remove('cursado', 'disponible', 'bloqueado');
-                
-                if (cursosCompletados.includes(codigo)) {
-                    cursoElement.classList.add('cursado');
-                } else if (requisitosCompletados(requisitos)) {
-                    cursoElement.classList.add('disponible');
-                } else {
-                    cursoElement.classList.add('bloqueado');
-                }
-            });
-        }
-
-        function obtenerRequisitos(codigo) {
-            for (let semestre in mallaData.malla) {
-                for (let curso of mallaData.malla[semestre]) {
-                    if (extraerCodigo(curso[0]) === codigo) {
-                        return curso[2];
-                    }
-                }
-            }
-            return [];
-        }
-
-        function requisitosCompletados(requisitos) {
-            return requisitos.every(req => cursosCompletados.includes(req));
-        }
-
-        function actualizarEstadisticas() {
-            const todosCursos = document.querySelectorAll('.curso');
-            let cursados = 0;
-            let disponibles = 0;
-            let bloqueados = 0;
-            
-            todosCursos.forEach(curso => {
-                if (curso.classList.contains('cursado')) {
-                    cursados++;
-                } else if (curso.classList.contains('disponible')) {
-                    disponibles++;
-                } else if (curso.classList.contains('bloqueado')) {
-                    bloqueados++;
-                }
-            });
-            
-            document.getElementById('cursados').textContent = cursados;
-            document.getElementById('disponibles').textContent = disponibles;
-            document.getElementById('bloqueados').textContent = bloqueados;
-        }
-
-        function resetearProgreso() {
-            if (confirm('¿Estás segura de que quieres resetear todo el progreso? 🥺')) {
-                cursosCompletados = [];
-                localStorage.removeItem('cursosCompletados');
-                actualizarEstadoCursos();
-                actualizarEstadisticas();
-            }
-        }
-
-        function copiarCodigoMalla() {
-    navigator.clipboard.writeText(btoa(JSON.stringify({
-        carrera: mallaData.carrera,
-        cursosCompletados
-    }))).then(()=>alert('¡Copiado!'));
-}
-function cargarCodigoMalla() {
-    try {
-        const datos = JSON.parse(atob(document.getElementById('codigo-malla-input').value.trim()));
-        if (!Array.isArray(datos.cursosCompletados)) throw 0;
-        cursosCompletados = datos.cursosCompletados;
-        localStorage.setItem('cursosCompletados', JSON.stringify(cursosCompletados));
-        actualizarEstadoCursos();
-        actualizarEstadisticas();
-        alert('¡Malla restaurada!');
-    } catch {
-        alert('Código inválido.');
-    }
-}
-
-        // Cargar JSON desde archivo (opcional)
-        function cargarJSON(archivo) {
-            fetch(archivo)
-                .then(response => response.json())
-                .then(data => {
-                    Object.assign(mallaData, data);
-                    inicializarMalla();
-                })
-                .catch(error => {
-                    console.error('Error cargando JSON:', error);
-                    inicializarMalla(); // Usar datos por defecto
-                });
-        }
-
-        // Inicializar cuando cargue la página
-        document.addEventListener('DOMContentLoaded', () => {
-            inicializarMalla();
-        });
-    </script>
-</body>
-</html>
+export default FinancialDashboard;
